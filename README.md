@@ -6,8 +6,16 @@
 
 ## 2. Run
 
-`docker-compose up -d`
+`docker-compose up`
 
 ## 3. Stop
 
 `docker-compose down`
+
+## Push
+
+`docker compose push`
+
+## Pull
+
+`docker pull ethan01/url-shortener-app:v1.0.0`

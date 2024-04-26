@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: "url-shortener-app:v1"
+    image: "ethan01/url-shortener-app:v1.0.0"
     build: .
     ports:
       - "9808:9808"
