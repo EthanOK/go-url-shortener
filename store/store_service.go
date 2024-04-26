@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -27,8 +28,17 @@ var (
 const CacheDuration = 6 * time.Hour
 
 func InitializeStore() *StorageService {
+
+	addr := "localhost:6379"
+
+	dockerEnv := os.Getenv("DOCKER_ENV")
+	if dockerEnv != "" {
+		fmt.Println("程序在Docker容器中运行")
+		addr = "redis:6379"
+	}
+
 	redisClient := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     addr,
 		Password: "",
 		DB:       0,
 	})
