@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"encoding/json"
+	"go-url-shortener/qrcode"
 	"go-url-shortener/shortener"
 	"go-url-shortener/store"
 	"net/http"
@@ -36,4 +38,32 @@ func HandleShortUrlRedirect(c *gin.Context) {
 	shortUrl := c.Param("shortUrl")
 	initialUrl := store.RetrieveInitialUrl(shortUrl)
 	c.Redirect(302, initialUrl)
+}
+
+func CreateQRCode(c *gin.Context) {
+
+	data, _ := c.GetRawData()
+	var body map[string]string
+	_ = json.Unmarshal(data, &body)
+	url := body["url"]
+	if url == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "url is required"})
+		return
+	}
+	png := qrcode.GenerateQRCode(body["url"])
+	c.Header("Content-Type", "image/png")
+	c.String(200, string(png))
+
+}
+
+func GetQRCode(c *gin.Context) {
+
+	url := c.Query("url")
+	if url == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "url is required"})
+		return
+	}
+	png := qrcode.GenerateQRCode(url)
+
+	c.String(200, string(png))
 }

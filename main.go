@@ -20,8 +20,23 @@ func main() {
 		})
 	})
 
+	r.GET("/favicon.ico", func(c *gin.Context) {
+
+		c.JSON(200, gin.H{
+			"message": "favicon.ico",
+		})
+	})
+
 	r.POST("/create-short-url", func(c *gin.Context) {
 		handler.CreateShortUrl(c)
+	})
+
+	r.POST("/create-qrcode", func(c *gin.Context) {
+		handler.CreateQRCode(c)
+	})
+
+	r.GET("/get-qrcode", func(c *gin.Context) {
+		handler.GetQRCode(c)
 	})
 
 	r.GET("/:shortUrl", func(c *gin.Context) {
